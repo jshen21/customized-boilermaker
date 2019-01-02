@@ -3,7 +3,7 @@ import React from 'react'
 const App = () => {
   return (
     <div>
-      <h1>Lightweighted Boilermaker</h1>
+      <h1>Customized Boilermaker</h1>
     </div>
   )
 }
