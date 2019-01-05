@@ -5,7 +5,6 @@ const PORT = process.env.PORT || 8080
 const app = express()
 module.exports = app
 
-
 /**
  * In development environment, I keep all of the
  * app's secret API keys in a file called `secrets.js`, in the project
@@ -14,31 +13,27 @@ module.exports = app
  */
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
+const createApp = () => {
+  // static file-serving middleware
+  app.use(express.static(path.join(__dirname, '..', 'public')))
+  
+  app.use('/api', require('./api'))
 
-// logging middleware
-app.use(morgan('dev'))
+  // error handling endware
+  app.use((err, req, res, next) => {
+    console.error(err)
+    console.error(err.stack)
+    res.status(err.status || 500).send(err.message || 'Internal server error.')
+  })
+}
 
-// body parsing middleware
-app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+const startListening = () => {
 
-// static file-serving middleware
-app.use(express.static(path.join(__dirname, '..', 'public')))
+  app.listen(PORT, () =>
+    console.log(`Listening on port ${PORT}`)
+  )
+}
 
-// sends index.html
-app.use('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public/index.html'))
-})
+createApp()
+startListening()
 
-app.use('/api', require('./api'))
-
-// error handling endware
-app.use((err, req, res, next) => {
-  console.error(err)
-  console.error(err.stack)
-  res.status(err.status || 500).send(err.message || 'Internal server error.')
-})
-
-app.listen(PORT, () =>
-console.log(`Listening on port ${PORT}`)
-)
