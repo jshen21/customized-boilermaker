@@ -7,7 +7,13 @@ Looking to mix up a backend with express and a frontend with react/redux? That's
 
 ## Setup
 
-Clone this repo.
+- Clone this repo.
+- change the repo name to the app name
+- cd to the app repo
+- git remote remove origin
+- create a new repo on github
+- git remote add the new local repo to github
+
 
 Now that you've got the code, follow these steps to get acclimated:
 
